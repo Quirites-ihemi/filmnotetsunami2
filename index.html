@@ -253,16 +253,50 @@ html,body{margin:0;background:#000;color:var(--ink);font-family:Inter,system-ui,
  #xp-help{display:none}
  .xmode #tracker{display:none}
 }
+
+/* ---- v06 ---- */
+#news{bottom:calc(var(--bar) + 4vh + 190px);will-change:bottom;transform:translateY(16px)!important;opacity:0;transition:opacity .5s,transform .5s}
+#news.on{transform:none!important;opacity:1}
+#caption.up{bottom:calc(var(--bar) + 4vh)}
+#news .strip{height:46px;font-size:16px}
+@media (max-width:700px){#news .strip{height:40px;font-size:14px}}
+#xbtn{background:#ffd9a8!important;color:#111!important;border-color:#ffd9a8!important;font-weight:600}
+#xfloat{position:fixed;right:16px;bottom:calc(var(--bar) / 2);transform:translateY(50%);z-index:9;display:flex;align-items:center;gap:10px;background:#ffd9a8;color:#111;border:0;border-radius:999px;padding:6px 16px 6px 6px;cursor:pointer;font:500 13px Inter,sans-serif;text-align:left;box-shadow:0 6px 24px rgba(0,0,0,.45);transition:opacity .4s,transform .3s;opacity:0;pointer-events:none}
+#xfloat.on{opacity:1;pointer-events:auto}
+#xfloat .ic{width:32px;height:32px;border-radius:50%;background:#111;color:#ffd9a8;display:grid;place-items:center;position:relative}
+#xfloat .ic::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:2px solid #111;opacity:.5;animation:xpulse 2s ease-out infinite}
+@keyframes xpulse{0%{transform:scale(.85);opacity:.6}100%{transform:scale(1.35);opacity:0}}
+#xfloat b{display:block;font-size:14px}
+#xfloat small{display:block;font-size:11.5px;opacity:.75}
+#xfloat.big{transform:translateY(calc(50% - 30px)) scale(1.12)}
+#xfloat:hover{filter:brightness(1.06)}
+#xfloat:focus-visible{outline:2px solid #fff;outline-offset:3px}
+@media (max-width:700px){#xfloat small{display:none}#xfloat{padding:4px 12px 4px 4px}#xfloat .ic{width:28px;height:28px}}
+@media (prefers-reduced-motion:reduce){#xfloat .ic::after{animation:none}}
+.xmode #xfloat{display:none}
+#xp-onboard{position:fixed;left:50%;top:44%;transform:translate(-50%,-50%);z-index:9;background:rgba(8,10,14,.86);border:1px solid rgba(255,217,168,.5);border-radius:14px;padding:20px 24px;text-align:center;width:min(640px,calc(100vw - 32px));transition:opacity .5s;pointer-events:none}
+#xp-onboard.off{opacity:0}
+#xp-onboard .ob-t{font-family:'Source Serif 4',Georgia,serif;font-size:24px;margin-bottom:14px}
+#xp-onboard .ob-g{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+#xp-onboard .ob-g span{font-size:13px;color:#d9d3c8;line-height:1.35}
+#xp-onboard .ob-g b{display:block;color:#ffd9a8;font-size:14px;margin-bottom:2px}
+#xp-onboard .ob-s{margin-top:12px;font-size:12.5px;color:var(--muted)}
+@media (max-width:700px){#xp-onboard .ob-g{grid-template-columns:1fr 1fr}}
+#end-actions{order:-1;margin:0 0 24px;align-items:center}
+#card-end h2{order:-2}
+#end-actions #again{font-size:19px;padding:8px 26px 8px 8px;gap:14px}
+#end-actions #again i{width:48px;height:48px;border-radius:50%;background:#111;color:#ffd9a8;display:grid;place-items:center}
+@media (max-width:700px){#end-actions #again{font-size:16px}#end-actions #again i{width:38px;height:38px}}
 </style>
 </head>
 <body>
-<canvas id="c" aria-label="Reconstitution 3D d'un tsunami sur la côte d'Antibes"></canvas>
+<canvas id="c" aria-label="Reconstitution 3D d'un tsunami dans une ville des Alpes-Maritimes en bord de mer"></canvas>
 <div id="vignette"></div>
 <div id="flash"></div>
 <div id="labels"></div>
 <div class="bar top"></div><div class="bar bot"></div>
 <div id="hud">
-  <div class="left"><span class="clock" id="clock">15:00:00</span><span class="place">Antibes · 15 août</span></div>
+  <div class="left"><span class="clock" id="clock">15:00:00</span><span class="place">Alpes-Maritimes · 15 août</span></div>
   <div id="controls"><button id="play" aria-pressed="false">Lecture</button><button id="xbtn">Vue 3D libre</button><button id="sound" aria-pressed="false">Son</button></div>
 </div>
 <div id="timers"><div class="row" id="t-since">Depuis la secousse : 00:00</div><div class="row red" id="t-wave" style="display:none">Vague dans 05:00</div></div>
@@ -272,10 +306,10 @@ html,body{margin:0;background:#000;color:var(--ink);font-family:Inter,system-ui,
 <div id="phone" aria-hidden="true"><div class="body"><div class="screen">
   <div class="time">15:15</div><div class="date">samedi 15 août</div>
   <div class="notif"><div class="hd"><b>FR-ALERT · ALERTE EXTRÊME</b><span>maintenant</span></div>
-  <div class="tt">Risque de tsunami : Antibes, Villefranche-sur-Mer, Saint-Jean-Cap-Ferrat</div>
+  <div class="tt">Risque de tsunami : littoral des Alpes-Maritimes</div>
   Quittez immédiatement le bord de mer. Rejoignez les hauteurs ou les étages élevés d'un immeuble solide. Laissez vos affaires. Ne prenez pas votre véhicule.</div>
 </div></div></div>
-<div id="news" aria-hidden="true"><div class="strip"><div class="tag">ÉDITION SPÉCIALE</div><div class="chan">INFO AZUR</div><div class="tick"><span>Fort séisme en mer Ligure, ressenti de Menton à Cannes · Des fissures signalées sur plusieurs immeubles à Antibes · Foule massée sur les plages · « Restez calmes », appellent les autorités · Aucune consigne officielle pour l'instant</span></div></div></div>
+<div id="news" aria-hidden="true"><div class="strip"><div class="tag">ÉDITION SPÉCIALE</div><div class="chan">INFO AZUR</div><div class="tick"><span>Fort séisme en mer Ligure, ressenti de Menton à Cannes · Risque de tsunami sur tout le littoral : Menton, Monaco, Nice, Villefranche-sur-Mer, Antibes, Cannes, Mandelieu · Des fissures signalées sur plusieurs immeubles du front de mer · Foule massée sur les plages · « Restez calmes », appellent les autorités · Aucune consigne officielle pour l'instant</span></div></div></div>
 <div id="cod" aria-hidden="true">
   <h3>Chaîne de commandement</h3>
   <div class="sub">Centre opérationnel départemental · préfecture</div>
@@ -292,7 +326,7 @@ html,body{margin:0;background:#000;color:var(--ink);font-family:Inter,system-ui,
 <div class="card" id="card-title"><div class="in">
   <div class="small" style="margin:0 0 22px">Le temps d'agir · une fiction de sensibilisation</div>
   <h1>15 août, 15h00</h1>
-  <p>Un séisme en mer Ligure. Sur la plage d'Antibes, des milliers de personnes. Vingt minutes avant la vague.</p>
+  <p>Un séisme en mer Ligure. Sur la plage d'une ville des Alpes-Maritimes, des milliers de personnes. Vingt minutes avant la vague.</p>
   <div id="start-actions">
    <button id="bigplay" aria-label="Regarder le film"><svg viewBox="0 0 24 24" width="38" height="38" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg></button>
    <div class="playlbl">Regarder le film</div>
@@ -310,13 +344,13 @@ html,body{margin:0;background:#000;color:var(--ink);font-family:Inter,system-ui,
     <li><span><b>Ne redescendez pas.</b> D'autres vagues peuvent suivre pendant plusieurs heures. Attendez la fin de l'alerte.</span></li>
   </ol>
   <div id="end-actions">
-   <button id="again" class="pri" type="button"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 5V2L7 6l5 4V7a6 6 0 1 1-6 6H4a8 8 0 1 0 8-8z" fill="currentColor"/></svg>Revoir le film</button>
+   <button id="again" class="pri" type="button"><i><svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M12 5V2L7 6l5 4V7a6 6 0 1 1-6 6H4a8 8 0 1 0 8-8z" fill="currentColor"/></svg></i>Diffuser à nouveau</button>
    <button id="endx" class="sec" type="button"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 2 3 7v10l9 5 9-5V7zm0 2.3L18.6 8 12 11.7 5.4 8zM5 9.7l6 3.4v6.6l-6-3.4zm8 10V13.1l6-3.4v6.6z" fill="currentColor"/></svg>Explorer la scène en 3D</button>
   </div>
-  <div class="small">Fiction. Lieux réels, chronologie et personnages imaginaires.</div>
+  <div class="small">Fiction. Lieux, chronologie et personnages imaginaires.</div>
 </div></div>
 <div id="plate" aria-live="polite">
-  <header><div><div class="pk">Antibes · La Salis</div><h2 id="plate-h"></h2></div><div class="ptime"><b id="plate-clock">15:16</b><span>15 août</span></div></header>
+  <header><div><div class="pk">Alpes-Maritimes · bord de mer</div><h2 id="plate-h"></h2></div><div class="ptime"><b id="plate-clock">15:16</b><span>15 août</span></div></header>
   <div class="fic">Scénario de fiction</div>
   <div class="cols">
     <div class="pcol" data-f="martin" style="--c:#ff8a7a"><div class="pname">Les Martin</div><div class="ptxt"></div></div>
@@ -327,6 +361,7 @@ html,body{margin:0;background:#000;color:var(--ink);font-family:Inter,system-ui,
 </div>
 <div id="pins" aria-label="Points d'intérêt dans la scène"></div>
 <div id="xp">
+  <div id="xp-onboard" role="note"><div class="ob-t">Vous êtes dans la scène 3D</div><div class="ob-g"><span><b>Glisser</b>pour tourner</span><span><b>Molette ou pincer</b>pour zoomer</span><span><b>Clic droit ou 2 doigts</b>pour se déplacer</span><span><b>① ② ③</b>cliquez sur les numéros</span></div><div class="ob-s">Le curseur en bas fait avancer l'heure.</div></div>
   <button id="xp-poi-toggle" type="button">Points d'intérêt</button>
   <aside id="xp-poi" aria-label="Points d'intérêt"><h4>Points d'intérêt · cliquez pour y aller</h4><ol id="xp-list"></ol></aside>
   <div id="xp-info" role="dialog" aria-live="polite"><button type="button" aria-label="Fermer">×</button><div class="k"></div><h3></h3><p></p></div>
@@ -334,12 +369,13 @@ html,body{margin:0;background:#000;color:var(--ink);font-family:Inter,system-ui,
     <button id="xp-play" type="button" aria-pressed="false"></button>
     <span id="xp-clock">14h59</span>
     <input id="xp-time" type="range" min="-3" max="23.5" step="0.01" value="-1" aria-label="Heure de la scène">
-    <button id="xp-film" type="button">Revoir le film</button>
+    <button id="xp-film" type="button">Diffuser le film</button>
     <div id="xp-help">Glisser : tourner · clic droit ou Maj : déplacer · molette : zoom · flèches ou ZQSD</div>
     <div id="xp-jumps"><button type="button" data-t="-1">14h59 Plage</button><button type="button" data-t="0.3">15h00 Séisme</button><button type="button" data-t="5">15h05 Foule</button><button type="button" data-t="9">15h09 Retrait</button><button type="button" data-t="15.1">15h15 Alerte</button><button type="button" data-t="20.1">15h20 Vague</button><button type="button" data-t="22.6">15h22 Bilan</button></div>
   </div>
 </div>
 <div id="progress"><div></div></div>
+<button id="xfloat" type="button"><span class="ic"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 2 3 7v10l9 5 9-5V7zm0 2.3L18.6 8 12 11.7 5.4 8zM5 9.7l6 3.4v6.6l-6-3.4zm8 10V13.1l6-3.4v6.6z" fill="currentColor"/></svg></span><span class="tx"><b>Explorer en 3D</b><small>Tournez, zoomez, cliquez sur les détails</small></span></button>
 <div id="loading"><div>Préparation de la scène</div><div class="ln"><div></div></div></div>
 <div id="scroller"></div>
 
@@ -18311,6 +18347,7 @@ void main(){
     a = ie(8, 12);
    n + r > -220 && n < -176 && s < 44 || kn.some(o => o.old && Math.abs(o.cx - n) < 12 && Math.abs(o.s0 - s) < 11) || gl(n, n + r, s, s + a, Math.round(ie(2, 4)), !0)
   }
+  for (let t = kn.length - 1; t >= 0; t--) kn[t].old && (t % 3 ? kn.splice(t, 1) : (kn[t].old = !1, kn[t].floors = Math.min(kn[t].floors, 2), kn[t].h = kn[t].floors * 3.1 + 1.2))
  }
 
  function gl(i, e, t, n, s, r = !1) {
@@ -18445,7 +18482,7 @@ void main(){
    vertexColors: !0,
    roughness: .95
   }));
-  l.castShadow = l.receiveShadow = !0, tt.add(l)
+  l.castShadow = l.receiveShadow = !0
  }
 
  function kh(i, e, t = 2) {
@@ -18892,7 +18929,8 @@ void main(){
    }
    n.sort((c, h) => c[0] - h[0]), qs({
     wp: n,
-    lying: s
+    lying: s,
+    crowd: !0
    })
   }
  }
@@ -19299,7 +19337,7 @@ varying vec3 vCol;`).replace("vec4 diffuseColor = vec4( diffuse, opacity );", "v
    p: Se(-150, -42, 11),
    t: Se(-100, 17, 1.5),
    k: "14h57",
-   x: "Plage de la Salis, un samedi d'août. La mer est calme, le sable est bondé.",
+   x: "Une ville des Alpes-Maritimes, un samedi d'août. La mer est calme, la plage est bondée.",
    pan: !0,
    d: 1.3,
    fl: !0
@@ -19338,7 +19376,7 @@ varying vec3 vCol;`).replace("vec4 diffuseColor = vec4( diffuse, opacity );", "v
    p: Se(-160, -230, 70),
    t: Se(60, 70, 6),
    k: "15h00",
-   x: "Un séisme de forte magnitude frappe la mer Ligure. À Antibes, la terre tremble pendant près d'une minute."
+   x: "Un séisme de forte magnitude frappe la mer Ligure. Sur la côte, la terre tremble pendant près d'une minute."
   }, {
    id: "fissures",
    m: 1.2,
@@ -19367,7 +19405,7 @@ varying vec3 vCol;`).replace("vec4 diffuseColor = vec4( diffuse, opacity );", "v
    p: Se(46, 28, 5.5),
    t: Se(62, 52, 1),
    k: "Les Benali",
-   x: "Le père court chercher la voiture garée près de la Salis. « On rentre, ici ce n'est pas sûr. »",
+   x: "Le père court chercher la voiture garée près de la plage. « On rentre, ici ce n'est pas sûr. »",
    f: "benali"
   }, {
    id: "retrait",
@@ -19382,7 +19420,7 @@ varying vec3 vCol;`).replace("vec4 diffuseColor = vec4( diffuse, opacity );", "v
    p: Se(-102, -6, 4.5),
    t: Se(-130, 34, 3),
    k: "Les Rossi",
-   x: "Le grand-père, ancien marin, reconnaît le signe. Sans attendre aucune consigne, il emmène sa femme et sa petite-fille vers les remparts.",
+   x: "Le grand-père, ancien marin, reconnaît le signe. Sans attendre aucune consigne, il emmène sa femme et sa petite-fille vers les hauteurs du cap.",
    f: "rossi"
   }, {
    id: "estran",
@@ -19466,10 +19504,10 @@ varying vec3 vCol;`).replace("vec4 diffuseColor = vec4( diffuse, opacity );", "v
   }, {
    id: "impact",
    m: 20.04,
-   p: Se(70, 14, 1.6),
+   p: Se(78, 26, 2.6),
    t: Se(62, -40, 2.2),
    k: "15h20",
-   x: "Un mur d'eau de trois mètres déferle sur la Salis. Au même moment, il frappe la rade de Villefranche et l'est du Cap Ferrat.",
+   x: "Un mur d'eau de trois mètres déferle sur la plage. Certains courent dans tous les sens, d'autres restent figés, sidérés.",
    ui: "impact"
   }, {
    id: "submerge",
@@ -19491,7 +19529,7 @@ varying vec3 vCol;`).replace("vec4 diffuseColor = vec4( diffuse, opacity );", "v
    p: Se(-207, 17, 2.7),
    t: Se(-60, 45, -6),
    k: "Les Rossi",
-   x: "Sur les remparts, les Rossi regardent la ville en contrebas. Ils sont partis cinq minutes avant tout le monde.",
+   x: "Sur les hauteurs du cap, les Rossi regardent la ville en contrebas. Ils sont partis cinq minutes avant tout le monde.",
    f: "rossi"
   }, {
    id: "nguyen2",
@@ -19512,19 +19550,15 @@ varying vec3 vCol;`).replace("vec4 diffuseColor = vec4( diffuse, opacity );", "v
   }],
   KF = n => Ze.findIndex(s => s.id === n),
   ru = [{
-   t: "Cap Ferrat · rade de Villefranche",
-   p: new L(2150, 175, -330),
-   ch: ["title", "seisme"]
-  }, {
-   t: "Vieille ville · remparts",
+   t: "Les hauteurs du cap",
    p: Se(-205, 40, 22),
    ch: ["title", "seisme", "retrait", "rossi1"]
   }, {
-   t: "Quartier de la Salis",
+   t: "Quartier du bord de mer",
    p: Se(120, 110, 24),
    ch: ["title", "seisme", "cod", "submerge"]
   }, {
-   t: "Plage de la Salis",
+   t: "La grande plage",
    p: Se(150, 18, 4),
    ch: ["foule"]
   }, {
@@ -19707,7 +19741,8 @@ varying vec3 vCol;`).replace("vec4 diffuseColor = vec4( diffuse, opacity );", "v
   V5start = Tt("start-actions"),
   V5end = Tt("end-actions"),
   V5lbl = Tt("labels"),
-  V5x = Tt("xbtn");
+  V5x = Tt("xbtn"),
+  V5f = Tt("xfloat");
  fs.onclick = () => {
   En = !En, fs.setAttribute("aria-pressed", En), fs.textContent = En ? "Pause" : "Lecture", En && scrollY >= document.documentElement.scrollHeight - innerHeight - 4 && (scrollTo(0, 0), Xs = null)
  };
@@ -19861,7 +19896,7 @@ varying vec3 vCol;`).replace("vec4 diffuseColor = vec4( diffuse, opacity );", "v
    ],
    rossi: [
     [-9, "Sur la plage", "wait"],
-    [8.15, "Partent vers les remparts dès le retrait", "good"],
+    [8.15, "Partent vers les hauteurs dès le retrait", "good"],
     [13.6, "À l'abri sur les hauteurs", "safe"]
    ],
    nguyen: [
@@ -20031,6 +20066,19 @@ varying vec3 vCol;`).replace("vec4 diffuseColor = vec4( diffuse, opacity );", "v
     hn.setMatrixAt(D, nn.compose(qh, zt.identity(), _n.setScalar(0)));
     continue
    } [P, N, G, q, V] = iu(T.wp, h);
+   let PX = 0;
+   if (T.crowd && h > 19.72 && !G && N > -60 && N < 46) {
+    let r1 = Math.abs(Math.sin(D * 12.9898) * 43758.5453 % 1),
+     r2 = Math.abs(Math.sin(D * 78.233) * 12543.21 % 1),
+     dt = h - 19.72 - r2 * .1;
+    if (dt > 0)
+     if (r1 < .22) K = Math.PI + (r2 - .5) * .7;
+     else {
+      let an = (r1 - .61) * 4.2 + Math.sin(dt * 14 + T.phase) * .35,
+       dd = (150 + r2 * 120) * dt;
+      P += Math.sin((r1 - .61) * 4.2) * dd + Math.sin(dt * 9 + T.phase) * 1.4, N = Math.min(N + Math.cos((r1 - .61) * 4.2) * dd, 47 + r2 * 3), G = 1, q = Math.sin(an), V = Math.cos(an), PX = 1
+     }
+   }
    let Q = wt(P) + N;
    if (T.after && h >= T.after[0]) {
     let ae = T.after[1];
@@ -20048,7 +20096,7 @@ varying vec3 vCol;`).replace("vec4 diffuseColor = vec4( diffuse, opacity );", "v
     hn.setMatrixAt(D, nn.compose(qh, zt.identity(), _n.setScalar(0))), v.array[D] = 0;
     continue
    }
-   Zt.set(he, K, 0), zt.setFromEuler(Zt), he ? at.set(P - Math.sin(K) * .85, Z, Q - Math.cos(K) * .85) : at.set(P, Z, Q), hn.setMatrixAt(D, nn.compose(at, zt, _n.setScalar(T.scale))), v.array[D] = G ? T.scale < .7 ? 1.1 : 1 : T.police != null && h > 10.5 && h < 20 ? .25 : 0
+   Zt.set(he, K, 0), zt.setFromEuler(Zt), he ? at.set(P - Math.sin(K) * .85, Z, Q - Math.cos(K) * .85) : at.set(P, Z, Q), hn.setMatrixAt(D, nn.compose(at, zt, _n.setScalar(T.scale))), v.array[D] = PX ? 1.45 : G ? T.scale < .7 ? 1.1 : 1 : T.police != null && h > 10.5 && h < 20 ? .25 : 0
   }
   hn.instanceMatrix.needsUpdate = !0, v.needsUpdate = !0;
   let x = yt.rossi[0]._st;
@@ -20178,10 +20226,10 @@ varying vec3 vCol;`).replace("vec4 diffuseColor = vec4( diffuse, opacity );", "v
   else {
    c !== us && (us = c, _a.style.opacity = 0, setTimeout(() => {
     EX.on || (H_.textContent = Ze[us].k, k_.textContent = Ze[us].x, _a.style.opacity = Ze[us].x ? 1 : 0)
-   }, 250)), G_.classList.toggle("on", KFc.ui === "phone"), ou.classList.toggle("on", KFc.ui === "cod"), W_.classList.toggle("on", KFc.id === "cod" || KFc.id === "benali2"), _a.classList.toggle("up", KFc.id === "cod" || KFc.id === "benali2"), _a.classList.toggle("left", KFc.ui === "phone"), $_.forEach(D => D.classList.toggle("on", h >= +D.dataset.m - .01));
+   }, 250)), G_.classList.toggle("on", KFc.ui === "phone"), ou.classList.toggle("on", KFc.ui === "cod"), W_.classList.toggle("on", KFc.id === "cod" || KFc.id === "benali2"), W_.classList.contains("on") && (W_.style.bottom = Math.max(innerHeight - _a.getBoundingClientRect().top + 10, innerHeight * .2) + "px"), _a.classList.toggle("up", KFc.id === "cod" || KFc.id === "benali2"), _a.classList.toggle("left", KFc.ui === "phone"), $_.forEach(D => D.classList.toggle("on", h >= +D.dataset.m - .01));
    let Y = n,
     eo = ze(Ze.length - 1.55, Ze.length - 1.1, Y);
-   Vh.style.opacity = Y < .5 ? 1 : 1 - ze(.5, .95, Y), Vh.style.pointerEvents = "none", V5start.style.visibility = Y < .6 && !En ? "visible" : "hidden", X_.style.opacity = eo, V5end.style.visibility = eo > .6 ? "visible" : "hidden", q_.style.opacity = s === KF("impact") ? ze(.2, .3, r) * (1 - ze(.62, .85, r)) : 0, Y_.style.width = Y / (Ze.length - 1) * 100 + "%", PL.show(PLATE, h), Q_(h, c), B_(h, c), PLATE ? PL.render() : wn.render(tt, Ti)
+   V5f.classList.toggle("on", Y > .6 && eo < .3 && !PLATE), V5f.classList.toggle("big", !En && Y > .6 && eo < .3), Vh.style.opacity = Y < .5 ? 1 : 1 - ze(.5, .95, Y), Vh.style.pointerEvents = "none", V5start.style.visibility = Y < .6 && !En ? "visible" : "hidden", X_.style.opacity = eo, V5end.style.visibility = eo > .6 ? "visible" : "hidden", q_.style.opacity = s === KF("impact") ? ze(.2, .3, r) * (1 - ze(.62, .85, r)) : 0, Y_.style.width = Y / (Ze.length - 1) * 100 + "%", PL.show(PLATE, h), Q_(h, c), B_(h, c), PLATE ? PL.render() : wn.render(tt, Ti)
   }
  }
  var PL = {
@@ -20212,7 +20260,7 @@ varying vec3 vCol;`).replace("vec4 diffuseColor = vec4( diffuse, opacity );", "v
     f: {
      martin: ["Rester, puis descendre sur la mer retirée.", "Toujours sur l'estran.<br>Au plus près de la vague."],
      benali: ["Aller chercher la voiture.", "Sortie bloquée.<br>Coincés dans les bouchons."],
-     rossi: ["Partir dès le retrait de la mer.", "Sur les remparts.<br>À l'abri depuis 15h13."],
+     rossi: ["Partir dès le retrait de la mer.", "Sur les hauteurs.<br>À l'abri depuis 15h13."],
      nguyen: ["Tout laisser et monter dans les étages.", "Dans l'escalier.<br>Bientôt au 4e étage."]
     }
    }
@@ -20276,7 +20324,7 @@ varying vec3 vCol;`).replace("vec4 diffuseColor = vec4( diffuse, opacity );", "v
   t: 9.3,
   d: 20,
   p: () => FP.rossi || Se(-110, 25, 1),
-  x: "Ancien marin, il reconnaît le retrait de la mer et part sans attendre aucune consigne vers les remparts. La famille est à l'abri dès 15h13, sept minutes avant la vague."
+  x: "Ancien marin, il reconnaît le retrait de la mer et part sans attendre aucune consigne vers les hauteurs du cap. La famille est à l'abri dès 15h13, sept minutes avant la vague."
  }, {
   k: "Famille Nguyen",
   h: "L'immeuble des Nguyen",
@@ -20335,18 +20383,11 @@ varying vec3 vCol;`).replace("vec4 diffuseColor = vec4( diffuse, opacity );", "v
   x: "Les téléphones vibrent tous en même temps, quinze minutes après la secousse. Il ne reste que cinq minutes : trop peu pour ceux qui ont attendu ce message."
  }, {
   k: "Zone refuge",
-  h: "Les remparts de la vieille ville",
+  h: "Les hauteurs du cap",
   t: 22.6,
   d: 90,
   p: () => Se(-205, 40, 6),
-  x: "Quelques mètres de hauteur suffisent : la vague de trois mètres s'arrête au pied de la vieille ville. Montez, puis ne redescendez pas avant la fin de l'alerte."
- }, {
-  k: "15h20",
-  h: "Rade de Villefranche · Cap Ferrat",
-  t: 20.3,
-  d: 1500,
-  p: () => new L(2150, 120, -330),
-  x: "Au même moment, la même vague frappe la rade de Villefranche et l'est du Cap Ferrat. Toute la côte est concernée."
+  x: "Quelques mètres de hauteur suffisent : la vague de trois mètres s'arrête au pied de la colline. Montez, puis ne redescendez pas avant la fin de l'alerte."
  }];
  var V5boatC = null,
   V5boat = () => V5boatC || (V5boatC = vt.boats.reduce((a, b) => Math.abs(b.x - 60) + Math.abs(b.s + 60) * .3 < Math.abs(a.x - 60) + Math.abs(a.s + 60) * .3 ? b : a));
@@ -20376,9 +20417,17 @@ varying vec3 vCol;`).replace("vec4 diffuseColor = vec4( diffuse, opacity );", "v
    if (this.on) return;
    Ta(), this.on = !0, document.documentElement.classList.add("xmode"), V5x.textContent = "Revenir au film", PL.show(null, 0);
    let t = V5h;
-   (t < -.5 || t > 23.4) && (t = -1), this.setT(t), this.tgt.copy(Se(10, 24, 0)), this.yaw = Math.PI - .28, this.pitch = .42, this.dist = 175, this.fly = null, this.select(-1), this.setPlay(!1), V5snd(), Kh.focus({
+   if (t < -.5 || t > 23.4) t = -1, this.tgt.copy(Se(10, 24, 0)), this.yaw = Math.PI - .28, this.pitch = .42, this.dist = 175;
+   else {
+    let d = new L().subVectors(wi, xn),
+     len = Math.min(d.length(), 60);
+    d.normalize(), this.tgt.copy(xn).addScaledVector(d, len), this.tgt.y < 0 && (this.tgt.y = 0), d.subVectors(xn, this.tgt), this.dist = Math.max(d.length(), 4), this.yaw = Math.atan2(d.x, d.z), this.pitch = Math.max(.06, Math.asin(bn(d.y / this.dist, -1, 1)))
+   }
+   this.setT(t), this.fly = null, this.select(-1), this.setPlay(!1), V5snd(), Kh.focus({
     preventScroll: !0
-   })
+   });
+   let ob = Tt("xp-onboard");
+   ob.classList.remove("off"), clearTimeout(this.obT), this.obT = setTimeout(() => ob.classList.add("off"), 7e3)
   },
   exit() {
    this.on && (this.on = !1, this.setPlay(!1), document.documentElement.classList.remove("xmode"), V5x.textContent = "Vue 3D libre", this.select(-1), us = -2, Xs = null)
@@ -20466,7 +20515,7 @@ varying vec3 vCol;`).replace("vec4 diffuseColor = vec4( diffuse, opacity );", "v
     last = null,
     mode = null;
    Kh.addEventListener("contextmenu", ev => this.on && ev.preventDefault()), Kh.addEventListener("pointerdown", ev => {
-    this.on && (Kh.setPointerCapture(ev.pointerId), ptrs.set(ev.pointerId, [ev.clientX, ev.clientY]), mode = ev.button === 2 || ev.shiftKey ? "pan" : "rot", last = null, this.fly = null)
+    this.on && (Tt("xp-onboard").classList.add("off"), Kh.setPointerCapture(ev.pointerId), ptrs.set(ev.pointerId, [ev.clientX, ev.clientY]), mode = ev.button === 2 || ev.shiftKey ? "pan" : "rot", last = null, this.fly = null)
    }), Kh.addEventListener("pointermove", ev => {
     if (!this.on || !ptrs.has(ev.pointerId)) return;
     let pv = ptrs.get(ev.pointerId),
@@ -20511,6 +20560,7 @@ varying vec3 vCol;`).replace("vec4 diffuseColor = vec4( diffuse, opacity );", "v
   EX.exit(), Ta(), scrollTo(0, 0), Xs = null, fs.onclick(), V5snd()
  }
  V5x.onclick = () => EX.on ? (EX.exit(), V5snd()) : EX.enter();
+ V5f.onclick = () => EX.enter();
  Tt("startx").onclick = () => EX.enter();
  Tt("again").onclick = () => V5replay();
  Tt("endx").onclick = () => EX.enter();

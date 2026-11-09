@@ -1,6 +1,6 @@
 # 15 août, 15h00 : tsunami en mer Ligure
 
-Film 3D interactif de sensibilisation au risque de tsunami sur la Côte d'Azur (Antibes, rade de Villefranche-sur-Mer, Cap Ferrat).
+Film 3D interactif de sensibilisation au risque de tsunami sur la Côte d'Azur (une ville des Alpes-Maritimes, rade de Villefranche-sur-Mer, Cap Ferrat).
 
 Un séisme en mer Ligure, la mer qui se retire, l'alerte FR-Alert quinze minutes plus tard, puis une vague de 3 mètres. Quatre familles, deux qui font les bons choix et deux qui font les mauvais.
 
@@ -12,6 +12,14 @@ Ouvrir `index.html` dans un navigateur (Chrome, Edge ou Firefox). L'écran d'acc
 - **Explorer la scène en 3D** : vue libre (glisser, zoomer, se déplacer), curseur du temps de 14h57 à 15h23, et 13 points d'intérêt cliquables.
 
 À la fin du film, deux boutons permettent de le revoir ou de passer à la vue 3D. Le bouton « Vue 3D libre » reste disponible en haut de l'écran.
+
+## Version 06
+
+- Lieu anonymisé : une ville des Alpes-Maritimes en bord de mer. Vieille ville et remparts supprimés ; les Rossi se réfugient sur les hauteurs du cap.
+- Au déferlement, la foule court dans tous les sens ; environ une personne sur cinq reste figée, sidérée, face à la mer.
+- Bandeau « Info Azur » remonté au-dessus des sous-titres ; c'est le seul endroit où des villes réelles sont citées.
+- Accès à la 3D plus visible : bouton « Explorer en 3D » permanent pendant le film (il ouvre la scène au moment et à l'endroit où l'on se trouve), bouton mis en avant dans le bandeau du haut, aide aux gestes à l'entrée de la vue 3D.
+- Fin : grand bouton « Diffuser à nouveau ».
 
 ## Version 05
 
