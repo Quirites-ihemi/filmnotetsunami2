@@ -6,7 +6,19 @@ Un séisme en mer Ligure, la mer qui se retire, l'alerte FR-Alert quinze minutes
 
 ## Voir le film
 
-Ouvrir `index.html` dans un navigateur (Chrome, Edge ou Firefox), puis cliquer sur « Lancer le film ».
+Ouvrir `index.html` dans un navigateur (Chrome, Edge ou Firefox). L'écran d'accueil propose deux entrées :
+
+- **Regarder le film** (environ 3 min 30, son conseillé) ;
+- **Explorer la scène en 3D** : vue libre (glisser, zoomer, se déplacer), curseur du temps de 14h57 à 15h23, et 13 points d'intérêt cliquables.
+
+À la fin du film, deux boutons permettent de le revoir ou de passer à la vue 3D. Le bouton « Vue 3D libre » reste disponible en haut de l'écran.
+
+## Version 05
+
+- Ouverture : plan panoramique de 30 secondes sur la plage avant le séisme, avec un ressac de vagues.
+- Planche « Quatre familles. Quatre choix. » puis planche « Trois minutes avant la vague. » (choix et conséquences, quatre vues 3D en direct).
+- Vue 3D navigable avec points d'intérêt (familles, retrait de la mer, bateaux couchés, panneaux d'évacuation, secours, zone refuge).
+- Encadrés des familles et des choix réduits.
 
 Le fichier est autonome : il fonctionne sans installation et sans connexion à un autre site.
 
